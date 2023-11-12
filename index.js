@@ -10,9 +10,14 @@ app.use(cors());
 const upload = multer();
 
 app.post('/upload', upload.single('chunk'), (req, res) => {
+    const ext = req.headers['data-ext'];
+    const nameFile = req.headers['data-name-file'];
     const chunk = req.file.buffer;
-    const filePath = path.join(__dirname, 'uploads', `uploadedFile.mp4`);
+    
+    const filePath = path.join(__dirname, 'uploads', `${nameFile}${ext}`);
+    // const filePath = path.join(__dirname, 'uploads', `uploadedFile.mp4`);
 
+    console.log("Ext: ", ext);
     // Criar um Readable Stream a partir do buffer
     const readStream = new Readable({
         read() {
